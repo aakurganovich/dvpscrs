@@ -1,0 +1,150 @@
+sudo apt update
+sudo apt install git
+git --version
+
+
+
+git config --global user.name "Ваше Имя"
+git config --global user.email "you@example.com"
+git config --global core.editor "nano"        # или vim, code
+git config --global init.defaultBranch main
+
+# Проверка настроек
+git config --list
+
+
+
+
+mkdir my-project
+cd my-project
+git init                    # инициализация репозитория
+ls -la                      # появилась папка .git
+
+
+
+
+git status                  # состояние файлов
+git status -s               # краткий формат
+
+echo "Hello Git" > file.txt
+
+git add file.txt            # добавить в staging
+git add .                   # добавить все изменения
+
+git commit -m "Первый коммит"
+
+git log                     # история коммитов
+git log --oneline           # компактный вид
+git log --oneline --graph --all   # граф
+
+
+
+git diff                    # изменения в рабочей директории
+git diff --staged           # изменения в staging
+
+git restore file.txt        # отменить изменения в файле
+git restore --staged file.txt   # убрать из staging
+
+git rm file.txt             # удалить файл
+git mv old.txt new.txt      # переименовать
+
+
+git branch                      # список веток
+git branch feature-1            # создать ветку
+git checkout feature-1          # переключиться
+git switch feature-1            # современный синтаксис
+git switch -c feature-2         # создать и переключиться
+
+# Создать коммит в ветке
+echo "new feature" > feature.txt
+git add .
+git commit -m "Добавил фичу"
+
+git switch main
+git merge feature-1             # слить ветку в main
+
+git branch -d feature-1         # удалить ветку
+
+
+
+# Создаём конфликт: два изменения одного файла в разных ветках
+git switch -c branch-a
+echo "A" > conflict.txt && git add . && git commit -m "A"
+
+git switch main
+echo "B" > conflict.txt && git add . && git commit -m "B"
+
+git merge branch-a              # КОНФЛИКТ
+
+# В файле появятся маркеры:
+# <<<<<<< HEAD
+# B
+# =======
+# A
+# >>>>>>> branch-a
+
+# Редактируем файл вручную, затем:
+git add conflict.txt
+git commit -m "Разрешил конфликт"
+
+git stash                       # спрятать изменения
+git stash list
+git stash pop                   # вернуть
+
+git cherry-pick <hash>          # перенести конкретный коммит
+
+git rebase main                 # перебазировать ветку
+
+
+# Регистрация на https://github.com
+# Генерация SSH-ключа:
+ssh-keygen -t ed25519 -C "you@example.com"
+cat ~/.ssh/id_ed25519.pub
+# Добавить ключ в GitHub → Settings → SSH Keys
+
+git remote add origin git@github.com:user/repo.git
+git remote -v
+
+git push -u origin main         # первый пуш
+git push                        # последующие
+
+git clone git@github.com:user/repo.git
+
+git pull                        # забрать изменения
+git fetch                       # забрать без слияния
+
+
+# 1. Форк или клонирование репозитория
+git clone git@github.com:user/repo.git
+cd repo
+
+# 2. Создать ветку под задачу
+git switch -c fix-bug-123
+
+# 3. Внести изменения и закоммитить
+git add . && git commit -m "Fix bug 123"
+
+# 4. Запушить ветку
+git push -u origin fix-bug-123
+
+# 5. На GitHub создать Pull Request
+# 6. После мержа — удалить ветку
+git switch main
+git pull
+git branch -d fix-bug-123
+
+# Отмена изменений
+git commit --amend -m "Новое сообщение"     # изменить последний коммит
+git reset --soft HEAD~1                     # отменить коммит, оставить файлы
+git reset --hard HEAD~1                     # ОПАСНО: удалить всё
+git revert <hash>                           # создать обратный коммит
+
+# Поиск проблем
+git blame file.txt                          # кто и когда менял строки
+git bisect start                            # бинарный поиск бага
+git reflog                                  # история HEAD (спасение!)
+
+# Теги
+git tag v1.0.0
+git tag -a v1.0.0 -m "Релиз"
+git push --tags
