@@ -2,3 +2,4 @@ test file
 pravka
 pravka2
 pravka3
+pravkar
