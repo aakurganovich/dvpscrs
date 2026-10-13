@@ -1,0 +1,15 @@
+git branch                      # список веток
+git branch feature-1            # создать ветку
+git checkout feature-1          # переключиться
+git switch feature-1            # современный синтаксис
+git switch -c feature-2         # создать и переключиться
+
+# Создать коммит в ветке
+echo "new feature" > feature.txt
+git add .
+git commit -m "Добавил фичу"
+
+git switch main
+git merge feature-1             # слить ветку в main
+
+git branch -d feature-1         # удалить ветку
