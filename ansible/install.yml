@@ -1,0 +1,11 @@
+---
+- name: install mc 
+  hosts: centos
+  gather_facts: no
+
+  tasks:
+    - name: install mc
+      dnf: 
+       name: mc
+       state: present
+       update_cache: yes 
