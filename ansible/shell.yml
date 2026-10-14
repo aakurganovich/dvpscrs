@@ -1,0 +1,14 @@
+---
+- name: Собрать информацию 
+  hosts: centos
+  gather_facts: no
+
+  tasks:
+    - name: Прочитать /etc/os-release
+      shell: cat /etc/os-release
+      register: os_release
+      changed_when: false
+
+    - name: Показать os-release
+      debug:
+        msg: "{{ inventory_hostname }} \n{{ os_release.stdout }}"
