@@ -1,0 +1,24 @@
+---
+- name: Создать папку и файл на серверах
+  hosts: centos
+  gather_facts: no
+
+  tasks:
+    - name: Создать директорию /opt/ansible-lab
+      file:
+        path: /opt/ansible-lab
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Создать файл info.txt
+      copy:
+        dest: /opt/ansible-lab/info.txt
+        content: |
+          hello
+          
+          
+        owner: root
+        group: root
+        mode: '0644'
